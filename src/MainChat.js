@@ -19,8 +19,8 @@ function MainChat() {
         h3 > Chanel name goes here < /h3> <
         p > Last seen { "" }
         Date Goes here <
-        /p> <
-        /div> <
+        /p> < /
+        div > <
         div className = "message-right" >
         <
         IconButton >
@@ -37,19 +37,19 @@ function MainChat() {
         <
         MoreVertIcon / >
         <
-        /IconButton> <
-        /div> <
+        /IconButton> < /
+        div > <
         /div> <
         div className = "message-body" >
         <
         p className = 'chat-message' >
         <
-        span className = "username" > New Message < /span>
+        span className = "username" > kateregga < /span><br / >
         Hello guys whats up <
-        small className = "time-stamp" > Date goes here < /small> <
-        /p>       <
-        /div> <
-        /div>
+        small className = "time-stamp" > Date goes here < /small> < /
+        p > <
+        /div> < /
+        div >
     )
 }
 
