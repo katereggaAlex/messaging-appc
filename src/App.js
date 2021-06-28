@@ -1,15 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+  import logo from './logo.svg';
+  import './App.css';
+  import Sidebar from './Sidebar';
+  import MainChat from './MainChat'
 
-function App() {
-    return ( <
-        div className = "app" >
-        <
-        div class Name = "main-body" > <
-        /div> <
-        h1 > This is my first application in react < /h1>  < /
-        div >
-    );
-}
+  function App() {
+      return ( <
+          div className = "app" >
+          <
+          div className = "main-body" >
+          <
+          Sidebar / >
+          <
+          MainChat / >
 
-export default App;
+          <
+          /div>
+
+          <
+          /div>
+      );
+  }
+
+  export default App
