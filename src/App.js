@@ -8,8 +8,7 @@ import Login from "./Login";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
-    return ( <
-        div className = "app" >
+    return ( < div className = "app" >
         <
         div className = "main-body" >
         <
@@ -17,21 +16,21 @@ function App() {
         <
         Switch >
         <
-        Route path = "/" >
+        Route exact path = "/" >
         <
         Sidebar / >
         <
         MainChat / >
         <
-        /Route> <Route path="/login
-        "><Login/ > < /Route >  <
-        /
-        Switch > <
-        /Router>
-
-
+        /Route> <
+        Route exact path = "/login" >
         <
-        /div>
+        Login / >
+        <
+        /Route> < /
+        Switch > <
+        /Router>  < /
+        div >
 
         <
         /div>

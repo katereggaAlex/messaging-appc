@@ -6,7 +6,12 @@ import ChatIcon from '@material-ui/icons/Chat';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import SidebarChats from './SidebarChats';
+import db from './firebase'
+import { auth, provider } from "./firebase"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import SidebarChat from './SidebarChat'
+toast.configure();
 
 function Sidebar() {
 
@@ -14,7 +19,11 @@ function Sidebar() {
     const AddNewChat = () => {
         const chatname = prompt("Enter you message here")
         if (chatname) {
-            console.log(chatname)
+            db.collection('Rooms').add({
+                name: chatname
+            })
+            toast.success('Channel successfully Created', { position: toast.POSITION.TOP_RIGHT })
+
         }
     }
     return ( <
