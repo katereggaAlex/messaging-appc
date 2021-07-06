@@ -128,3 +128,8 @@
             cursor: pointer;
             padding: 10px;
         }
+        
+        .dialogue {
+            margin-left: 1200px !important;
+            top: 10px !important;
+        }
