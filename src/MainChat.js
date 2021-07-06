@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React,{useState,useEffect} from 'react'
 import "./MainChat.css"
-import { Avatar, IconButton } from "@material-ui/core"
+import {Avatar, IconButton} from "@material-ui/core"
 import ChatIcon from '@material-ui/icons/Chat';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import { DonutLarge, InsertEmoticon } from '@material-ui/icons'
-import { useParams } from "react-router-dom"
+import {useParams} from "react-router-dom"
 import db from "./firebase"
-import { useStateValue } from './StateProvider'
+import {useStateValue} from './StateProvider'
 import firebase from "firebase";
-import { toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as timeago from 'timeago.js';
 
@@ -29,161 +29,132 @@ import Typography from '@material-ui/core/Typography';
 import { blue } from '@material-ui/core/colors';
 
 const useStyles = makeStyles({
-    avatar: {
+      avatar: {
         backgroundColor: blue[100],
         color: blue[600],
-    },
-});
+      },
+    });
 
 
-function MainChat({ date }) {
-    const [open, setOpen] = useState(false);
-    const { roomId } = useParams()
-    const [message, setMessage] = useState('')
-    const [messages, setMessages] = useState([])
-    const [{ user }] = useStateValue()
-
-
-    //method to open dialog
-    const handleOpen = () => {
+      function MainChat({date}) {
+      const[open,setOpen]=useState(false);
+      const {roomId}=useParams()
+      const [message,setMessage]=useState('')
+      const [messages,setMessages]=useState([])
+      const [{user}]=useStateValue()
+      const [channelName, setChannel]=useState('')
+   
+      
+      //method to open dialog
+      const handleOpen=()=>{
             setOpen(true)
-        }
-        // method to close dialog
-    const handleClose = () => {
-        setOpen(false)
-    }
+      }
+      // method to close dialog
+      const handleClose=()=>{
+            setOpen(false)
+      }
 
-    //function to send message to our database
-    const sendMessage = (e) => {
-        e.preventDefault()
-        db.collection('Rooms').doc(roomId).collection('Messages').add({
-            text: message,
-            name: user.displayName,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        })
-
-        const audio = new Audio('https://drive.google.com/uc?export=download&id=1M95VOpto1cQ4FQHzNBaLf0WFQglrtWi7');
-        audio.play();
-        toast.success('Message Sent Successsfully', { position: toast.POSITION.TOP_RIGHT })
-        setMessage('')
-    }
-
-    //function to fetch messages from db (React Hook)
-    useEffect(() => {
-        if (roomId) {
-            db.collection('Rooms').doc(roomId).collection('Messages').orderBy('timestamp', 'asc').onSnapshot(snap => {
-                setMessages(snap.docs.map(doc => doc.data()))
+      //function to send message to our database
+       const sendMessage=(e)=>{
+            e.preventDefault()
+            db.collection('Rooms').doc(roomId).collection('Messages').add({
+                  text:message,
+                  name:user.displayName,
+                  timestamp:firebase.firestore.FieldValue.serverTimestamp()
             })
-        }
-    }, [roomId])
+           
+           const audio = new Audio('https://drive.google.com/uc?export=download&id=1M95VOpto1cQ4FQHzNBaLf0WFQglrtWi7');
+           audio.play();   
+           toast.success('Message Sent Successsfully',{position:toast.POSITION.TOP_RIGHT}) 
+           setMessage('')
+       }
 
-    return ( <
-        div className = "chat-field" >
-        <
-        div className = "message-header" >
-        <
-        Avatar src = 'https://avatars.dicebear.com/api/human/88.svg' / >
-        <
-        div className = "header_info" >
-        <
-        h3 > Chanel name goes here < /h3> <
-        p > Last seen { "" }
-        Date Goes here <
-        /p> < /
-        div > <
-        div className = "message-right" >
-        <
-        IconButton >
-        <
-        DonutLarge / >
-        <
-        /IconButton> <
-        IconButton >
-        <
-        ChatIcon / >
-        <
-        /IconButton> <
-        IconButton onClick = { handleOpen } >
-        <
-        MoreVertIcon / >
-        <
-        /IconButton> < /
-        div > <
-        /div> <
-        div className = "message-body" > {
-            messages.map((res) => ( <
-                p className = { `chat-message ${res.name===user.displayName && 'message-sender'}` } >
-                <
-                span className = "username" > { res.name } < /span><br/ > { res.text } <
-                small className = "time-stamp" > { timeago.format(new Date(res ? .timestamp ? .toDate())) } < /small> < /
-                p >
-            ))
+       //function to fetch messages from db (React Hook)
+           useEffect(()=>{
+                  if(roomId){
+                        db.collection('Rooms').doc(roomId).collection('Messages').orderBy('timestamp','asc').onSnapshot(snap=>{
+                           setMessages(snap.docs.map(doc=>doc.data()))   
+                        })
 
-        }
+                      // code to fetch details about the channel we are working with
+                        db.collection('Rooms').doc(roomId).onSnapshot(snap=>{
+                          setChannel(snap.data().name)
+                        })
 
-        <
-        /div>
+                  }      
+           },[roomId])
 
-        <
-        div className = "message-footer" >
-        <
-        InsertEmoticon / >
-        <
-        form >
-        <
-        input value = { message }
-        onChange = { e => setMessage(e.target.value) }
-        placeholder = "Type a message here"
-        type = "text" / >
-        <
-        button onClick = { sendMessage }
-        type = "submit" > Send Message < /button> < /
-        form > <
-        /div>
+          //  function to clear messages goes here
 
-        { /* code to render dialogue */ } <
-        Dialog position = "top,right"
-        className = "dialogue"
-        onClose = { handleClose }
-        aria - labelledby = "simple-dialog-title"
-        open = { open } >
-        <
-        DialogTitle id = "simple-dialog-title" > Account Settings < /DialogTitle> <
-        List >
-        <
-        ListItem button >
-        <
-        ListItemAvatar >
-        <
-        Avatar >
-        <
-        PersonIcon / >
-        <
-        /Avatar> < /
-        ListItemAvatar > <
-        ListItemText primary = "Clear Your Message Chats" / >
-        <
-        /ListItem> <
-        ListItem autoFocus button >
-        <
-        ListItemAvatar >
-        <
-        Avatar >
-        <
-        AddIcon / >
-        <
-        /Avatar> < /
-        ListItemAvatar > <
-        ListItemText primary = "Logout of your Acccount" / >
-        <
-        /ListItem> < /
-        List > <
-        /Dialog>
+  return (
+    <div className="chat-field">
+        <div className="message-header">
+        <Avatar src='https://avatars.dicebear.com/api/human/88.svg'/>
+          <div className="header_info">
+          <h3>{channelName}</h3>
+          <p>Last seen &nbsp;
+             {new Date(messages[messages.length-1]?.timestamp?.toDate()).toUTCString()}
+          </p>
+          </div>
+          <div className="message-right">
+          <IconButton>
+            <DonutLarge/>
+            </IconButton>
+            <IconButton>
+            <ChatIcon/>
+            </IconButton>
+            <IconButton onClick={handleOpen}>
+            <MoreVertIcon/>
+            </IconButton>
+          </div>
+        </div>
+        <div className="message-body">
+              {messages.map((res)=>(
+                  <p className={`chat-message ${res.name===user.displayName && 'message-sender'}`}>
+                  <span className="username">{res.name}</span><br/>
+                        {res.text}
+                  <small className="time-stamp"> {timeago.format(new Date(res?.timestamp?.toDate()))} </small>
+                  </p>
+              ))
+
+              }
+                          
+        </div>
+
+        <div className="message-footer">
+            <InsertEmoticon/>
+            <form>
+             <input value={message} onChange={e=>setMessage(e.target.value)} placeholder="Type a message here" type="text"/>   
+             <button onClick={sendMessage} type="submit">Send Message</button>
+            </form>
+        </div>
+
+        {/* code to render dialogue */}
+   <Dialog position="top,right" className="dialogue" onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      <DialogTitle id="simple-dialog-title"> Account Settings</DialogTitle>
+      <List>
+          <ListItem button >
+            <ListItemAvatar>
+              <Avatar >
+                <PersonIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Clear Your Message Chats"/>
+          </ListItem>
+        <ListItem autoFocus button >
+          <ListItemAvatar>
+            <Avatar>
+              <AddIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Logout of your Acccount" />
+        </ListItem>
+      </List>
+    </Dialog>
 
 
-        <
-        /div>
-    )
+    </div>
+  )
 }
 
 export default MainChat

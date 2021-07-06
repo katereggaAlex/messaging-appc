@@ -1,79 +1,70 @@
-.side-bar {
+.side-bar{
     display: flex;
-    flex: 0.35;
-    flex-direction: column;
+    flex: 0.35; 
+    flex-direction: column;  
 }
-
-.sidebar-header {
+.sidebar-header{
     display: flex;
     justify-content: space-between;
     padding: 20px;
     border-right: 1px solid lightgray;
 }
-
-.header-right {
+.header-right{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-width: 10vw;
+    min-width: 10vw; 
 }
-
-.sidebar-search {
+.sidebar-search{
     display: flex;
-    align-items: center;
+    align-items: center; 
     background-color: #f6f6f6;
     padding: 10px;
     height: 39px;
 }
-
-.search-container {
+.search-container{
     display: flex;
     align-items: center;
     background-color: white;
     width: 100%;
     border-radius: 20px;
-}
 
-.search-container>input {
-    border: none;
-    margin-left: 10px;
-    outline-width: 0;
-    padding: 10px;
-    height: 10px;
-    cursor: pointer;
 }
-
-.search-container>.MuiSvgIcon-root {
+.search-container > input{
+  border: none;
+  margin-left: 10px;
+  outline-width: 0;
+  padding: 10px;
+  height: 10px;
+  cursor: pointer;
+}
+.search-container >.MuiSvgIcon-root{
     color: gray;
-    font-size: 30px!important;
+    font-size: 30px !important;
 }
-
-.sidebar-chats {
-    background-color: white;
+.sidebar-chats{
     flex: 1;
+    background-color:white;
     overflow: scroll;
 }
-
-.chat-head {
-    color: rgb(11, 245, 11);
-    border: 1px solid rgb(13, 240, 13);
-    padding: 10px;
+.chat-head{
+    color:rgb(13, 145, 13);
+    border: 1px solid rgb(13, 145, 13);
+    padding:10px;
     border-radius: 5px;
     font-family: 'Times New Roman', Times, serif;
     align-items: center;
+    text-align: center;
     margin-top: 5px;
     cursor: pointer;
-    text-align: center;
+    margin:5px; 
 }
-
-.sidebar-chats::-webkit-scrollbar {
+/* for google chrome */
+.sidebar-chats::-webkit-scrollbar{
     display: none;
 }
-
-
 /* for internet explore ,Edge and fire fox */
-
-.sidebar-chats {
+.sidebar-chats{
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
