@@ -10,11 +10,13 @@ import db from './firebase'
 import { auth, provider } from "./firebase"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useStateValue } from './StateProvider';
 // import SidebarChat from './SidebarChat'
 toast.configure();
 
 function Sidebar() {
     const [rooms, setRooms] = useState([])
+    const [{ user }] = useStateValue()
 
 
     //  method to capture our message
@@ -24,8 +26,9 @@ function Sidebar() {
                 db.collection('Rooms').add({
                     name: chatname
                 })
+                const audio = new Audio('https://drive.google.com/uc?export=download&id=1M95VOpto1cQ4FQHzNBaLf0WFQglrtWi7');
+                audio.play();
                 toast.success('Channel Successfully Created', { position: toast.POSITION.TOP_RIGHT })
-
             }
         }
         // React hook to render our channels from db
@@ -50,8 +53,8 @@ function Sidebar() {
         <
         div className = "sidebar-header" >
         <
-        Avatar / >
-        <
+        Avatar src = { user ? .photoURL }
+        /> <
         div className = "header-right" >
         <
         IconButton >
@@ -94,7 +97,7 @@ function Sidebar() {
         h2 > Add New Channel < /h2> < /
         div > {
             rooms.map(res => ( <
-                SidebarChats key = 'id'
+                SidebarChats key = { res.id }
                 id = { res.id }
                 channelname = { res.data.name }
                 />
