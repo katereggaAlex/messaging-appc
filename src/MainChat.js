@@ -7,6 +7,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { DonutLarge, InsertEmoticon } from '@material-ui/icons'
 import {useParams} from "react-router-dom"
 import db from "./firebase"
+import {auth} from "./firebase"
 import {useStateValue} from './StateProvider'
 import firebase from "firebase";
 import {toast } from 'react-toastify';
@@ -41,7 +42,7 @@ const useStyles = makeStyles({
       const {roomId}=useParams()
       const [message,setMessage]=useState('')
       const [messages,setMessages]=useState([])
-      const [{user}]=useStateValue()
+      const [{user},dispatch]=useStateValue()
       const [channelName, setChannel]=useState('')
    
       
@@ -84,7 +85,15 @@ const useStyles = makeStyles({
                   }      
            },[roomId])
 
-          //  function to clear messages goes here
+          //  function to logout of app
+           const logOut=()=>{
+             auth.signOut()
+             dispatch({
+              type:'SET_USER',
+              user:null
+             })
+             setOpen(false)
+           }
 
   return (
     <div className="chat-field">
@@ -93,7 +102,11 @@ const useStyles = makeStyles({
           <div className="header_info">
           <h3>{channelName}</h3>
           <p>Last seen &nbsp;
-             {new Date(messages[messages.length-1]?.timestamp?.toDate()).toUTCString()}
+            {messages.length>0 ?(
+              <small className="last-seen">{new Date(messages[messages.length-1]?.timestamp?.toDate()).toLocaleString()} </small> 
+            ):(
+               <small className="no-lastseen">No user visited this channel</small>
+            )}   
           </p>
           </div>
           <div className="message-right">
@@ -147,7 +160,7 @@ const useStyles = makeStyles({
               <AddIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Logout of your Acccount" />
+          <ListItemText onClick={logOut} primary="Logout of your Acccount" />
         </ListItem>
       </List>
     </Dialog>
