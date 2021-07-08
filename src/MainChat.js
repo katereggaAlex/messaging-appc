@@ -95,6 +95,19 @@ const useStyles = makeStyles({
              setOpen(false)
            }
 
+           // function to clear chat messages
+           const clearMessages=()=>{
+                if(roomId){
+                db.collection('Rooms').doc(roomId).collection('Messages').get().then(function(querySnapshot) {
+                  querySnapshot.forEach(function(doc) {
+                      doc.ref.delete();
+                  });
+              });  
+             } 
+             toast.success('Messages Cleared',{position:toast.POSITION.TOP_RIGHT})
+             setOpen(false)        
+           }
+
   return (
     <div className="chat-field">
         <div className="message-header">
@@ -146,7 +159,7 @@ const useStyles = makeStyles({
    <Dialog position="top,right" className="dialogue" onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title"> Account Settings</DialogTitle>
       <List>
-          <ListItem button >
+          <ListItem  onClick={clearMessages} button >
             <ListItemAvatar>
               <Avatar >
                 <PersonIcon />
