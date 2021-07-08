@@ -17,6 +17,7 @@ toast.configure();
 function Sidebar() {
    const[rooms,setRooms]=useState([])
    const[{user}]=useStateValue()
+   const[inputvalue,setInput]=useState('')
 
 
   //  method to capture our message
@@ -49,14 +50,38 @@ function Sidebar() {
         },[])
  
 
+          //function to filter channels by names
+          const filterChannels = (event) => {
+            event.preventDefault()
+            let value = event.target.value.toLowerCase();
+            let result = [];
+            result = rooms.filter((res) => {
+            return res.data.name.toLowerCase().search(value) != -1;
+            });
+            setRooms(result);
+            }
+
+
+
+           //refresh function
+          const refresh=()=>{
+            db.collection('Rooms').onSnapshot(snap=>{
+              setRooms(snap.docs.map(doc=>(
+                {
+                 data:doc.data(),
+                 id:doc.id 
+                }
+              )))
+           })
+           }
 
   return (
     <div className="side-bar">
            <div className="sidebar-header">
                <Avatar src={user?.photoURL}/>
                <div className="header-right">
-                  <IconButton>
-                  <DonutLarge/>
+                  <IconButton onClick={refresh}>
+                  < DonutLarge/>
                   </IconButton>
                   <IconButton>
                   <ChatIcon/>
@@ -70,7 +95,7 @@ function Sidebar() {
         <div className="sidebar-search">
           <div className="search-container">
             <SearchIcon/>
-            <input type="text" placeholder="Search or start new chat"/>
+            <input  onChange={filterChannels} type="text" placeholder="Search or start new chat"/>
           </div>   
         </div>
 

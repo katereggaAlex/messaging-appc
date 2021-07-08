@@ -11,9 +11,11 @@
         "firebase": "^8.6.8",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
+        "react-input-emoji": "^4.0.8",
         "react-router-dom": "^5.2.0",
         "react-scripts": "4.0.3",
         "react-toastify": "^7.0.4",
+        "timeago.js": "^4.0.2",
         "web-vitals": "^1.1.2"
     },
     "scripts": {
@@ -26,9 +28,9 @@
         "extends": [
             "react-app",
             "react-app/jest"
-            ]
+        ]
     },
-     "browserslist": {
+    "browserslist": {
         "production": [
             ">0.2%",
             "not dead",
@@ -40,5 +42,4 @@
             "last 1 safari version"
         ]
     }
-   
 }
